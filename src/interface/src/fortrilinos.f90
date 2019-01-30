@@ -122,10 +122,13 @@ integer, parameter, public :: SWIGTYPE_NOX__StatusTest__StatusType = C_INT
   type(SwigClassWrapper), public :: swigdata
  contains
   procedure :: setup => swigf_NOXSolver_setup
-  procedure :: solve => swigf_NOXSolver_solve
+  procedure, private :: solve__SWIG_0 => swigf_NOXSolver_solve__SWIG_0
+  procedure, private :: solve__SWIG_1 => swigf_NOXSolver_solve__SWIG_1
+  procedure :: get_solution => swigf_NOXSolver_get_solution
   procedure :: release => delete_NOXSolver
   procedure, private :: swigf_assignment_NOXSolver
   generic :: assignment(=) => swigf_assignment_NOXSolver
+  generic :: solve => solve__SWIG_0, solve__SWIG_1
  end type NOXSolver
  interface NOXSolver
   module procedure new_NOXSolver
@@ -518,13 +521,32 @@ type(SwigClassWrapper) :: farg1
 type(SwigClassWrapper) :: farg2
 end subroutine
 
-function swigc_NOXSolver_solve(farg1) &
-bind(C, name="_wrap_NOXSolver_solve") &
+function swigc_NOXSolver_solve__SWIG_0(farg1, farg2) &
+bind(C, name="_wrap_NOXSolver_solve__SWIG_0") &
+result(fresult)
+use, intrinsic :: ISO_C_BINDING
+import :: swigclasswrapper
+type(SwigClassWrapper) :: farg1
+type(SwigClassWrapper) :: farg2
+integer(C_INT) :: fresult
+end function
+
+function swigc_NOXSolver_solve__SWIG_1(farg1) &
+bind(C, name="_wrap_NOXSolver_solve__SWIG_1") &
 result(fresult)
 use, intrinsic :: ISO_C_BINDING
 import :: swigclasswrapper
 type(SwigClassWrapper) :: farg1
 integer(C_INT) :: fresult
+end function
+
+function swigc_NOXSolver_get_solution(farg1) &
+bind(C, name="_wrap_NOXSolver_get_solution") &
+result(fresult)
+use, intrinsic :: ISO_C_BINDING
+import :: swigclasswrapper
+type(SwigClassWrapper) :: farg1
+type(SwigClassWrapper) :: fresult
 end function
 
 subroutine swigc_delete_NOXSolver(farg1) &
@@ -1337,7 +1359,25 @@ farg2 = plist%swigdata
 call swigc_NOXSolver_setup(farg1, farg2)
 end subroutine
 
-function swigf_NOXSolver_solve(self) &
+function swigf_NOXSolver_solve__SWIG_0(self, initial_guess) &
+result(swig_result)
+use, intrinsic :: ISO_C_BINDING
+integer(SWIGTYPE_NOX__StatusTest__StatusType) :: swig_result
+class(NOXSolver), intent(inout) :: self
+
+class(TpetraMultiVector), intent(inout) :: initial_guess
+
+integer(C_INT) :: fresult 
+type(SwigClassWrapper) :: farg1 
+type(SwigClassWrapper) :: farg2 
+
+farg1 = self%swigdata
+farg2 = initial_guess%swigdata
+fresult = swigc_NOXSolver_solve__SWIG_0(farg1, farg2)
+swig_result = fresult
+end function
+
+function swigf_NOXSolver_solve__SWIG_1(self) &
 result(swig_result)
 use, intrinsic :: ISO_C_BINDING
 integer(SWIGTYPE_NOX__StatusTest__StatusType) :: swig_result
@@ -1347,8 +1387,22 @@ integer(C_INT) :: fresult
 type(SwigClassWrapper) :: farg1 
 
 farg1 = self%swigdata
-fresult = swigc_NOXSolver_solve(farg1)
+fresult = swigc_NOXSolver_solve__SWIG_1(farg1)
 swig_result = fresult
+end function
+
+function swigf_NOXSolver_get_solution(self) &
+result(swig_result)
+use, intrinsic :: ISO_C_BINDING
+type(TpetraMultiVector) :: swig_result
+class(NOXSolver), intent(in) :: self
+
+type(SwigClassWrapper) :: fresult 
+type(SwigClassWrapper) :: farg1 
+
+farg1 = self%swigdata
+fresult = swigc_NOXSolver_get_solution(farg1)
+swig_result%swigdata = fresult
 end function
 
 subroutine delete_NOXSolver(self)

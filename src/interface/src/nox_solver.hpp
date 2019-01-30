@@ -22,12 +22,20 @@ namespace ForTrilinos {
 
   template<class Scalar, class LocalOrdinal, class GlobalOrdinal, class Node>
   class NOXSolver {
+  public:
+    typedef Scalar          SC;
+    typedef LocalOrdinal    LO;
+    typedef GlobalOrdinal   GO;
+    typedef Node            NO;
+
+    typedef Tpetra::MultiVector<SC,LO,GO,NO> MultiVector;
 
   public:
 
     NOXSolver(const Teuchos::RCP<ModelEvaluator<Scalar, LocalOrdinal, GlobalOrdinal, Node>>& model);
     void setup(Teuchos::RCP<Teuchos::ParameterList>& plist);
-    NOX::StatusTest::StatusType solve();
+    NOX::StatusTest::StatusType solve(Teuchos::RCP<MultiVector> initial_guess = Teuchos::null);
+    Teuchos::RCP<const MultiVector> get_solution() const;
 
   private:
     Teuchos::RCP<NOX::Solver::Generic> solver_;

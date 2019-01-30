@@ -24,16 +24,15 @@ namespace ForTrilinos {
   void NOXSolver<Scalar, LocalOrdinal, GlobalOrdinal, Node>::
   setup(Teuchos::RCP<Teuchos::ParameterList>& plist)
   {
-
     using Teuchos::RCP;
     using Teuchos::rcp;
 
     // Create the JFNK operator
     std::string jtype;
     RCP<NOX::Thyra::Group> nox_group;
-    RCP<Thyra::PreconditionerBase<Scalar>> prec_op;
-    RCP<Thyra::ModelEvaluator<Scalar>> thyra_model;
-    RCP<NOX::Thyra::MatrixFreeJacobianOperator<Scalar>> jfnk_op;
+    RCP<Thyra::PreconditionerBase<SC>> prec_op;
+    RCP<Thyra::ModelEvaluator<SC>> thyra_model;
+    RCP<NOX::Thyra::MatrixFreeJacobianOperator<SC>> jfnk_op;
 
     if (plist->isSublist("Jacobian Settings")) {
       auto jsettings = plist->sublist("Jacobian Settings");
@@ -51,7 +50,7 @@ namespace ForTrilinos {
         if (jtype == "Matrix Free Newton") {
           auto jfnk_params = Teuchos::rcpFromRef(p.sublist(jtype));
           Teuchos::ParameterList print_params;
-          jfnk_op = rcp(new NOX::Thyra::MatrixFreeJacobianOperator<Scalar>(print_params));
+          jfnk_op = rcp(new NOX::Thyra::MatrixFreeJacobianOperator<SC>(print_params));
           jfnk_op->setParameterList(jfnk_params);
           /*
           RCP<Teuchos::FancyOStream> out = Teuchos::VerboseObjectBase::getDefaultOStream();
@@ -59,7 +58,7 @@ namespace ForTrilinos {
           */
 
           // Wrap the model evaluator in a JFNK Model Evaluator
-          thyra_model = rcp(new NOX::MatrixFreeModelEvaluatorDecorator<Scalar>(model_));
+          thyra_model = rcp(new NOX::MatrixFreeModelEvaluatorDecorator<SC>(model_));
 
           // Create the Preconditioner operator
           if (jsettings.get<bool>("Use Prec", false))
@@ -112,8 +111,19 @@ namespace ForTrilinos {
   template<class Scalar, class LocalOrdinal, class GlobalOrdinal, class Node>
   NOX::StatusTest::StatusType
   NOXSolver<Scalar, LocalOrdinal, GlobalOrdinal, Node>::
-  solve()
+  NOXSolver::solve(Teuchos::RCP<MultiVector> initial_guess)
   {
+    // TODO: set initial guess
     return solver_->solve();
+  }
+
+  template<class Scalar, class LocalOrdinal, class GlobalOrdinal, class Node>
+  Teuchos::RCP<const Tpetra::MultiVector<Scalar,LocalOrdinal,GlobalOrdinal,Node>>
+  NOXSolver<Scalar, LocalOrdinal, GlobalOrdinal, Node>::
+  get_solution() const {
+    auto& solution_group = solver_->getSolutionGroup();
+    NOX::Thyra::Vector const& x_nox_thyra = dynamic_cast<NOX::Thyra::Vector const&>(solution_group.getX());
+    Thyra::VectorBase<double> const& x_thyra = x_nox_thyra.getThyraVector();
+    return Thyra::TpetraOperatorVectorExtraction<SC,LO,GO,NO>::getConstTpetraMultiVector(Teuchos::rcpFromRef(x_thyra));
   }
 }

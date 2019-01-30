@@ -45,6 +45,8 @@ int main2(Teuchos::RCP<const Teuchos::Comm<int>>& comm,
 
   int returncode = (solve_status == NOX::StatusTest::Converged) ? 0 : 1;
 
+  auto solution = nox_solver.get_solution();
+
   Teuchos::TimeMonitor::summarize();
 
   return returncode;

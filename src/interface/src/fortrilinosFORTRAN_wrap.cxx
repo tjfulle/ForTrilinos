@@ -2228,7 +2228,45 @@ SWIGEXPORT void _wrap_NOXSolver_setup(SwigClassWrapper const *farg1, SwigClassWr
 }
 
 
-SWIGEXPORT int _wrap_NOXSolver_solve(SwigClassWrapper const *farg1) {
+SWIGEXPORT int _wrap_NOXSolver_solve__SWIG_0(SwigClassWrapper const *farg1, SwigClassWrapper const *farg2) {
+  int fresult ;
+  ForTrilinos::NOXSolver< SC,LO,GO,NO > *arg1 = (ForTrilinos::NOXSolver< SC,LO,GO,NO > *) 0 ;
+  Teuchos::RCP< ForTrilinos::NOXSolver< double,int,long long,Kokkos::Compat::KokkosSerialWrapperNode >::MultiVector > arg2 ;
+  Teuchos::RCP< ForTrilinos::NOXSolver< SC,LO,GO,NO > > *smartarg1 ;
+  NOX::StatusTest::StatusType result;
+  
+  smartarg1 = static_cast< Teuchos::RCP< ForTrilinos::NOXSolver<SC,LO,GO,NO> >* >(farg1->cptr);
+  arg1 = smartarg1 ? const_cast< ForTrilinos::NOXSolver<SC,LO,GO,NO>* >(smartarg1->get()) : NULL;
+  if (farg2->cptr) arg2 = *static_cast< Teuchos::RCP< Tpetra::MultiVector<SC,LO,GO,NO> >* >(farg2->cptr);
+  {
+    // Make sure no unhandled exceptions exist before performing a new action
+    SWIG_check_unhandled_exception_impl("ForTrilinos::NOXSolver< SC,LO,GO,NO >::solve(Teuchos::RCP< ForTrilinos::NOXSolver< double,int,long long,Kokkos::Compat::KokkosSerialWrapperNode >::MultiVector >)");;
+    try
+    {
+      // Attempt the wrapped function call
+      result = (NOX::StatusTest::StatusType)(arg1)->solve(arg2);
+    }
+    catch (const std::range_error& e)
+    {
+      // Store a C++ exception
+      SWIG_exception_impl("ForTrilinos::NOXSolver< SC,LO,GO,NO >::solve(Teuchos::RCP< ForTrilinos::NOXSolver< double,int,long long,Kokkos::Compat::KokkosSerialWrapperNode >::MultiVector >)", SWIG_IndexError, e.what(), return 0);
+    }
+    catch (const std::exception& e)
+    {
+      // Store a C++ exception
+      SWIG_exception_impl("ForTrilinos::NOXSolver< SC,LO,GO,NO >::solve(Teuchos::RCP< ForTrilinos::NOXSolver< double,int,long long,Kokkos::Compat::KokkosSerialWrapperNode >::MultiVector >)", SWIG_RuntimeError, e.what(), return 0);
+    }
+    catch (...)
+    {
+      SWIG_exception_impl("ForTrilinos::NOXSolver< SC,LO,GO,NO >::solve(Teuchos::RCP< ForTrilinos::NOXSolver< double,int,long long,Kokkos::Compat::KokkosSerialWrapperNode >::MultiVector >)", SWIG_UnknownError, "An unknown exception occurred", return 0);
+    }
+  }
+  fresult = static_cast< int >(result);
+  return fresult;
+}
+
+
+SWIGEXPORT int _wrap_NOXSolver_solve__SWIG_1(SwigClassWrapper const *farg1) {
   int fresult ;
   ForTrilinos::NOXSolver< SC,LO,GO,NO > *arg1 = (ForTrilinos::NOXSolver< SC,LO,GO,NO > *) 0 ;
   Teuchos::RCP< ForTrilinos::NOXSolver< SC,LO,GO,NO > > *smartarg1 ;
@@ -2260,6 +2298,43 @@ SWIGEXPORT int _wrap_NOXSolver_solve(SwigClassWrapper const *farg1) {
     }
   }
   fresult = static_cast< int >(result);
+  return fresult;
+}
+
+
+SWIGEXPORT SwigClassWrapper _wrap_NOXSolver_get_solution(SwigClassWrapper const *farg1) {
+  SwigClassWrapper fresult ;
+  ForTrilinos::NOXSolver< SC,LO,GO,NO > *arg1 = (ForTrilinos::NOXSolver< SC,LO,GO,NO > *) 0 ;
+  Teuchos::RCP< ForTrilinos::NOXSolver< SC,LO,GO,NO > const > *smartarg1 ;
+  Teuchos::RCP< ForTrilinos::NOXSolver< double,int,long long,Kokkos::Compat::KokkosSerialWrapperNode >::MultiVector const > result;
+  
+  smartarg1 = static_cast< Teuchos::RCP<const ForTrilinos::NOXSolver<SC,LO,GO,NO> >* >(farg1->cptr);
+  arg1 = smartarg1 ? const_cast< ForTrilinos::NOXSolver<SC,LO,GO,NO>* >(smartarg1->get()) : NULL;
+  {
+    // Make sure no unhandled exceptions exist before performing a new action
+    SWIG_check_unhandled_exception_impl("ForTrilinos::NOXSolver< SC,LO,GO,NO >::get_solution() const");;
+    try
+    {
+      // Attempt the wrapped function call
+      result = ((ForTrilinos::NOXSolver< SC,LO,GO,NO > const *)arg1)->get_solution();
+    }
+    catch (const std::range_error& e)
+    {
+      // Store a C++ exception
+      SWIG_exception_impl("ForTrilinos::NOXSolver< SC,LO,GO,NO >::get_solution() const", SWIG_IndexError, e.what(), return SwigClassWrapper_uninitialized());
+    }
+    catch (const std::exception& e)
+    {
+      // Store a C++ exception
+      SWIG_exception_impl("ForTrilinos::NOXSolver< SC,LO,GO,NO >::get_solution() const", SWIG_RuntimeError, e.what(), return SwigClassWrapper_uninitialized());
+    }
+    catch (...)
+    {
+      SWIG_exception_impl("ForTrilinos::NOXSolver< SC,LO,GO,NO >::get_solution() const", SWIG_UnknownError, "An unknown exception occurred", return SwigClassWrapper_uninitialized());
+    }
+  }
+  fresult.cptr = (new Teuchos::RCP<const Tpetra::MultiVector<SC,LO,GO,NO> >(static_cast< const Teuchos::RCP<const Tpetra::MultiVector<SC,LO,GO,NO> >& >(result)));
+  fresult.mem = SWIG_MOVE;
   return fresult;
 }
 
